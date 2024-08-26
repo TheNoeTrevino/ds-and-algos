@@ -32,7 +32,6 @@ class LinkedList:
         itr.next = Node(data, None)
 
     def append_values(self, data_list):
-
         for data in data_list:
             self.append(data)
 
