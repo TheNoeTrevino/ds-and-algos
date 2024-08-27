@@ -12,9 +12,11 @@ class DoublyLinkedList:
     def push(self, data):
         if self.head is None:
             self.head = Node(data)
+            return
 
-        self.head.data = data
-        self.head.next = self.head
+        new_node = Node(data, None, self.head)
+        self.head.prev = new_node
+        self.head = new_node
 
     def append(self, data):
         if self.head is None:
@@ -25,26 +27,38 @@ class DoublyLinkedList:
         while itr.next:
             itr = itr.next
 
-        itr.next = Node(data, itr)
+        itr.next = Node(data, itr, None)
 
     def append_values(self, data_list):
         for data in data_list:
             self.append(data)
 
     def insert_after_value(self, data_after, data_to_insert):
-        # TODO: raise exception here if value does not exist, else where also
         if self.head is None:
-            self.head = Node(data_to_insert)
+            raise Exception("This linked list is empty")
+
+        itr = self.head
+        while itr:
+            if itr.data == data_after:
+                new_node = Node(data_to_insert, itr, itr.next)
+
+                if itr.next:
+                    itr.next.prev = new_node
+
+                itr.next = new_node
+                break
+
+            itr = itr.next
+
+    def delte_value(self, data_to_delete):
+        if self.head is None:
+            raise Exception("This linked list is empty")
 
         itr = self.head
         while itr.next:
-            # this is broken
-            if itr.data == data_after:
-                # itr.next = Node(data_to_insert, itr, itr.next)
-                itr.next.data = data_to_insert
+            if itr.next.data == data_to_delete:
+                itr.next = itr.next.next
                 itr.next.prev = itr
-                itr.next.next = itr.next
-                return
 
             itr = itr.next
 
@@ -52,8 +66,9 @@ class DoublyLinkedList:
         llstr = ""
         itr = self.head
         if itr is None:
-            print("Linked List is empty")
-            return
+            raise Exception(
+                "Linked List is empty, consider using push to make a new Linked List"
+            )
 
         while itr:
             llstr += str(itr.data)
@@ -70,8 +85,9 @@ class DoublyLinkedList:
         llstr = ""
 
         if itr is None:
-            print("Linked List is empty")
-            return
+            raise Exception(
+                "Linked List is empty, consider using push to make a new Linked List"
+            )
 
         # just traverse
         while itr.next:
@@ -92,8 +108,13 @@ class DoublyLinkedList:
 ll = DoublyLinkedList()
 ll.append(1)
 ll.append(2)
-# ll.push(0)
-ll.append_values([2, 1, 4, 32, 9])
-# ll.insert_after_value(9, "HERE")
+ll.append_values([4, 5])
+ll.insert_after_value(2, 3)
+ll.push(0)
+print("before delete: ")
+ll.print_forwards()
+ll.print_backwards()
+ll.delte_value(3)
+print("after delete: ")
 ll.print_forwards()
 ll.print_backwards()

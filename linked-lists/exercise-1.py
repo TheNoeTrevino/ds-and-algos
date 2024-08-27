@@ -37,7 +37,7 @@ class LinkedList:
 
     def insert(self, data, index):
         if index < 0:
-            print("index cannot be a negative number")
+            raise Exception("index cannot be a negative number")
         else:
             if self.head is None:
                 self.head = Node(data, None)
@@ -97,6 +97,8 @@ class LinkedList:
             if itr.data == data_after:
                 if itr.next is not None:
                     itr.next = Node(data_to_insert, itr.next.next)
+                else:
+                    itr.next = Node(data_to_insert)
 
             itr = itr.next
 
@@ -149,7 +151,7 @@ ll.print()
 
 
 print("\nLinked list after removal:")
-ll.remove_at(3)
+ll.remove_at(2)
 ll.print()
 
 print("\nAdd value by index: ")
@@ -157,10 +159,10 @@ ll.insert("UNIQUE", 2)
 ll.print()
 
 print("\nAdd value after UNIQUE: ")
-ll.insert_after_value("UNIQUE", "NEW VALUE")
+ll.insert_after_value("UNIQUE", "AFTER UNIQUE")
 ll.print()
 
 
-print("\nRemove said value: ")
+print("\nRemove said NEW VALUE: ")
 ll.remove_by_value("NEW VALUE")
 ll.print()
