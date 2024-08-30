@@ -10,7 +10,7 @@ def calc_square(numbers: list[int]):
 
 
 def calc_cube(numbers):
-    print("calculate cube of numbers")
+    print("hello")
     for n in numbers:
         time.sleep(1)
         print("cube:", n * n * n)
