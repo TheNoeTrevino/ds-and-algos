@@ -1,5 +1,5 @@
 class TreeNode:
-    def __init__(self, employee_information):
+    def __init__(self, employee_information: dict):
         self.employee_information = employee_information
         self.children = []
         self.parent = None
@@ -18,24 +18,23 @@ class TreeNode:
         return level
 
     def print_tree(self, choice):
+        # dictionary comprehension was overkill
+        # attributes = {k: v for k, v in self.employee_information.items() if k in choice}
+        # attributes = " (".join(attributes.values()) + ")"
 
-        filtered_employee = {
-            k: v
-            # this line iterates through everthing
-            # select self.employee_information.items()
-            for (k, v) in self.employee_information.items()
-            # where key is in choice
-            if k in choice
-        }
-        attributes = filter(self.employee_information
-        filtered_values = filtered_employee.values()
-        attributes = ", ".join(filtered_values)
+        attr_str = ""
+        if "name" in choice:
+            attr_str += str(self.employee_information.get("name"))
+            if "position" in choice:
+                attr_str += " (" + str(self.employee_information.get("position")) + ")"
+        elif "position" in choice:
+            attr_str += str(self.employee_information.get("position"))
 
         if self.get_level() > 0:
             # join()
-            print(("  " * self.get_level()) + "|__" + attributes)
+            print(("  " * self.get_level()) + "|__" + attr_str)
         else:
-            print(attributes)
+            print(attr_str)
 
         for child in self.children:
             child.print_tree(choice)
@@ -67,3 +66,5 @@ taylor.add_child(nathalie)
 root = david
 
 root.print_tree(["position"])
+root.print_tree(["name"])
+root.print_tree(["name", "position"])
