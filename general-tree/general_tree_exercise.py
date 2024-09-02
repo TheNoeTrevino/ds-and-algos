@@ -18,15 +18,24 @@ class TreeNode:
         return level
 
     def print_tree(self, choice):
-        # look up how to do a dictionray comprehention
-        # also use .join(', ' + the comprehention
-        #
-        selection = "ABOVE"
+
+        filtered_employee = {
+            k: v
+            # this line iterates through everthing
+            # select self.employee_information.items()
+            for (k, v) in self.employee_information.items()
+            # where key is in choice
+            if k in choice
+        }
+        attributes = filter(self.employee_information
+        filtered_values = filtered_employee.values()
+        attributes = ", ".join(filtered_values)
 
         if self.get_level() > 0:
-            print(("  " * self.get_level()) + "|__" + selection)
+            # join()
+            print(("  " * self.get_level()) + "|__" + attributes)
         else:
-            print(self.employee_information[choice])
+            print(attributes)
 
         for child in self.children:
             child.print_tree(choice)
