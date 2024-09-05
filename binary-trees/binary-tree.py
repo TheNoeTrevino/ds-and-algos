@@ -108,8 +108,8 @@ class BinaryTreeNode:
                 # this is the most important part. We are updating the pointer here
                 # this will eventually evaulate the else statement
                 self.left = self.left.delete(value)
-            # else:
-            #     raise Exception("Value not in tree")
+            else:
+                raise Exception("Value not in tree")
 
         # greater than, traverse
         elif value > self.data:
@@ -117,8 +117,8 @@ class BinaryTreeNode:
                 # this is the most important part. We are updating the pointer here
                 # this will eventually evaulate the else statement
                 self.right = self.right.delete(value)
-            # else:
-            #     raise Exception("Value not in tree")
+            else:
+                raise Exception("Value not in tree")
 
         # equal to, which means we found it, no traversal. Delete
         else:
