@@ -101,6 +101,48 @@ class BinaryTreeNode:
             sum += i
         return sum
 
+    def delete(self, value):
+        # less than, traverse
+        if value < self.data:
+            if self.left:
+                # this is the most important part. We are updating the pointer here
+                # this will eventually evaulate the else statement
+                self.left = self.left.delete(value)
+            # else:
+            #     raise Exception("Value not in tree")
+
+        # greater than, traverse
+        elif value > self.data:
+            if self.right:
+                # this is the most important part. We are updating the pointer here
+                # this will eventually evaulate the else statement
+                self.right = self.right.delete(value)
+            # else:
+            #     raise Exception("Value not in tree")
+
+        # equal to, which means we found it, no traversal. Delete
+        else:
+            # no children
+            if self.left is None and self.right is None:
+                return None
+            # only right child
+            if self.left is None:
+                return self.right
+            # only left child
+            if self.right is None:
+                return self.left
+
+            # exercise
+            max_val = self.find_max()
+            self.data = max_val
+            self.left = self.left.delete(max_val)
+            # two children
+            # min_val = self.find_min()
+            # self.data = min_val
+            # self.right = self.right.delete(min_val)
+
+        return self
+
 
 def build_tree(values):
     root = BinaryTreeNode(values[0])
@@ -121,4 +163,6 @@ print(tree.search(9))
 print(tree.search(19))
 print(tree.in_order_traversal())
 print(tree.post_order_traversal())
+print(tree.pre_order_traversal())
+tree.delete(2)
 print(tree.pre_order_traversal())
