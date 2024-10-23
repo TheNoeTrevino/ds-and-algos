@@ -1,12 +1,3 @@
-# 1. **`reduce`**: Applies a rolling computation to sequential pairs of values in a list.
-# 2. **`all`**: Returns `True` if all elements in the iterable are true.
-# 3. **`any`**: Returns `True` if any element in the iterable is true.
-# 4. **`sorted`**: Returns a new sorted list from the elements of any iterable.
-# 5. **`enumerate`**: Adds a counter to an iterable and returns it as an enumerate object.
-# 6. **`sum`**: Sums the items of an iterable from left to right and returns the total.
-# 7. **`max`**: Returns the largest item in an iterable or the largest of two or more arguments.
-# 8. **`min`**: Returns the smallest item in an iterable or the smallest of two or more arguments.
-#
 from functools import reduce
 
 test_list = [1, 2, 3, 4, 5, 6, 7, 8, 9]
@@ -27,7 +18,7 @@ def append_evens(num):
 
 # map
 result = list(map(lambda x: x + x, test_list))
-# in respec it would be test_list.map((x) => append_evens)
+# in java/js/ts and other languages it would be test_list.map((x) => append_evens)
 map(append_evens, test_list)
 print("append evenes:", resulting_list)
 print("map:", result)
@@ -43,23 +34,42 @@ print("filter:", result)
 result = list(zip(test_list, letters_list[6:]))
 print("zip:", result)
 
-# reduce
+# REDUCE
+# A bit more complicated. When no initial value is provided the first element of
+# the array is used as the inital value, then begins to accumalate.
+# x is the accumalator, and y is the iterator
 result = reduce(lambda x, y: x + y, test_list)
-print("reduce:", result)
+print("reduce with no inital value:", result)
+# if you add an inital value, instead of starting with the first element, it
+# will add the first element to the intial value, and continue
+inital_value = 50
+result = reduce(lambda x, y: x + y, test_list, inital_value)
+print("reduce with the inital value of 50:", result)
 
-# all
+# ALL
+# checks if a condition returns true for all the iteration in a list
+# note: works with splicing
 result = all(is_even(num) for num in test_list)
-print("all:", result)
+print("all named function:", result)
+# if wanting to use a lambda use it this way to avoid type error
+# above is probably better though
+result = all((lambda num: num % 2 == 0)(num) for num in test_list)
+print("all lambda function :", result)
 
 # any
+# similar to all, but check if any of them hold true to the function instead
 result = any(is_even(num) for num in test_list)
 print("any:", result)
 
-# sorted
+# sorted sorts a list, least to greatest. Use reverse if desired
 result = sorted(test_list, reverse=True)
 print("sorted:", result)
 
 # enumerate
+# returns a tuple of the indicies, and the value. (0, 1) etc...
+# really good for leet code where both the value and the index are used. will make
+# those algorithmic problems more managable
+# even in two sum, this is super helpful
 result = list(enumerate(test_list))
 print("enumerate:", result)
 
@@ -74,3 +84,16 @@ print("max:", result)
 # min
 result = min(test_list)
 print("min:", result)
+
+test_dictionary = [
+    {"name": "Alice", "age": 30},
+    {"name": "Bob", "age": 25},
+    {"name": "Charlie", "age": 35},
+]
+
+# NOTE: with max, min, sorted, and some others...
+# we can use the key with a lambda function to decide what is the attribute
+# that is being sorted upon. Good for dictionaries, and data structures where
+# something other than the default value is what we want to be judged
+result = max(test_dictionary, key=lambda x: x["age"])  # can be name, etc...
+print("max by age:", result)
