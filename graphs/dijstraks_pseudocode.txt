@@ -1,0 +1,41 @@
+func dijkstras(source, Graph):
+  
+  // init distances to all nodes as infinity, except the source node which is 0
+  distances = {node: infinity for node in Graph.nodes()}
+  distances[source] = 0
+
+  // init visited set and priority queue
+  visited = set()
+  pq = minHeap()
+
+  // enqueue the source node with distance 0
+  pq.enqueue(source, 0)
+
+  while not pq.isEmpty():
+    // get the node with the smallest distance
+    current = pq.pop()
+
+    // if the current node has been visited, skip it
+    if current in visited:
+      continue
+
+    // mark the current node as visited
+    visited.add(current)
+
+    // check all neighboring nodes
+    for neighbor in Graph.neighbors(current):
+      // calculate the tentative distance to the neighbor
+      tentative_distance = distances[current] + Graph.distance(current, neighbor)
+
+      // if the tentative distance is smaller, update the distance
+      if tentative_distance < distances[neighbor]:
+        distances[neighbor] = tentative_distance
+
+        // Enqueue the neighbor with its new distance
+        pq.enqueue(neighbor, tentative_distance)
+
+  return distances
+
+
+
+Time complexity: O((V + E) log V), where V is the number of vertices and E is the number of edges
